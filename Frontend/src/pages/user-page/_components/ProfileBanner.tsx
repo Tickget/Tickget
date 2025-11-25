@@ -1,0 +1,209 @@
+import SettingsIcon from "@mui/icons-material/Settings";
+import { normalizeProfileImageUrl } from "@shared/utils/profileImageUrl";
+import { useAuthStore } from "@features/auth/store";
+
+interface ProfileBannerProps {
+  nickname: string;
+  birthDate: string;
+  birthDateRaw?: string;
+  email: string;
+  profileImage?: string;
+  isEditing?: boolean;
+  tempNickname?: string;
+  tempProfileImage?: string;
+  tempBirthDate?: string;
+  onEdit?: () => void;
+  onInfoManage?: () => void;
+  onNicknameChange?: (value: string) => void;
+  onProfileImageChange?: (file: File) => void;
+  onBirthDateChange?: (value: string) => void;
+  onSave?: () => void;
+  onCancel?: () => void;
+}
+
+export default function ProfileBanner({
+  nickname,
+  birthDate,
+  birthDateRaw,
+  email,
+  profileImage,
+  isEditing,
+  tempNickname,
+  tempProfileImage,
+  tempBirthDate,
+  onEdit,
+  onInfoManage,
+  onNicknameChange,
+  onProfileImageChange,
+  onBirthDateChange,
+  onSave,
+  onCancel,
+}: ProfileBannerProps) {
+  const userId = useAuthStore((state) => state.userId);
+  const originalBirthDate = birthDateRaw ?? "";
+  const hasNicknameChange =
+    tempNickname !== undefined && tempNickname !== nickname;
+  const hasProfileImageChange =
+    tempProfileImage !== undefined && tempProfileImage !== profileImage;
+  const hasBirthDateChange =
+    tempBirthDate !== undefined && tempBirthDate !== originalBirthDate;
+
+  // 수정 사항이 있는지 확인
+  const hasChanges =
+    hasNicknameChange || hasProfileImageChange || hasBirthDateChange;
+
+  return (
+    <div
+      className="relative z-0 h-96 w-full overflow-hidden"
+      style={{
+        backgroundImage: `url('/mypage_banner.webp')`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
+      {/* Dark overlay for better text readability */}
+      <div className="absolute inset-0 bg-gradient-to-r from-purple-900/40 to-transparent" />
+
+      {/* Content */}
+      <div className="relative z-10 mx-auto flex max-w-6xl items-center gap-6 px-8 py-8">
+        {/* Profile Image */}
+        <div className="flex flex-col items-center gap-3">
+          <div className="flex h-32 w-32 items-center justify-center rounded-full bg-white">
+            {isEditing
+              ? (() => {
+                  const imageUrl =
+                    tempProfileImage ||
+                    normalizeProfileImageUrl(profileImage, userId) ||
+                    "/profile.png";
+                  return (
+                    <img
+                      src={imageUrl}
+                      alt="Profile"
+                      className="h-full w-full rounded-full object-cover"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        if (target.src !== "/profile.png") {
+                          target.src = "/profile.png";
+                        }
+                      }}
+                    />
+                  );
+                })()
+              : (() => {
+                  // profileImage가 없으면 userId로 S3 경로 생성
+                  const imageUrl = profileImage
+                    ? normalizeProfileImageUrl(profileImage, userId)
+                    : normalizeProfileImageUrl(null, userId);
+                  const finalImageUrl = imageUrl || "/profile.png";
+                  return (
+                    <img
+                      key={finalImageUrl}
+                      src={finalImageUrl}
+                      alt="Profile"
+                      className="h-full w-full rounded-full object-cover"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        if (target.src !== "/profile.png") {
+                          target.src = "/profile.png";
+                        }
+                      }}
+                    />
+                  );
+                })()}
+          </div>
+          {isEditing && (
+            <label className="cursor-pointer rounded-lg bg-white/90 px-4 py-2 text-xs font-medium text-purple-600 transition-colors hover:bg-white">
+              사진 변경
+              <input
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file && onProfileImageChange) {
+                    onProfileImageChange(file);
+                  }
+                }}
+              />
+            </label>
+          )}
+        </div>
+
+        {/* User Info */}
+        <div className="flex flex-col gap-2 text-white">
+          <div className="flex items-center gap-3">
+            {isEditing ? (
+              <input
+                type="text"
+                value={tempNickname !== undefined ? tempNickname : nickname}
+                onChange={(e) => onNicknameChange?.(e.target.value)}
+                className="rounded-lg bg-white/90 px-4 py-2 text-2xl font-bold text-neutral-900"
+              />
+            ) : (
+              <div className="flex items-center gap-3">
+                <h2 className="text-3xl font-bold">{nickname}</h2>
+                <span className="text-white/70">|</span>
+                <button
+                  onClick={onInfoManage}
+                  className="text-sm text-white/90 hover:text-white underline transition-colors cursor-pointer"
+                >
+                  내정보 관리
+                </button>
+              </div>
+            )}
+            {!isEditing && (
+              <button
+                onClick={onEdit}
+                className="flex items-center justify-center rounded-full p-1 text-white transition-colors hover:bg-white/20 cursor-pointer"
+                aria-label="프로필 수정"
+              >
+                <SettingsIcon fontSize="small" />
+              </button>
+            )}
+          </div>
+          <div className="flex gap-6 text-sm">
+            {isEditing ? (
+              <label className="flex items-center gap-2 text-white">
+                <span>생년월일:</span>
+                <input
+                  type="date"
+                  value={
+                    tempBirthDate !== undefined
+                      ? tempBirthDate
+                      : originalBirthDate
+                  }
+                  onChange={(e) => onBirthDateChange?.(e.target.value)}
+                  className="rounded-lg bg-white/90 px-3 py-1 text-sm text-neutral-700"
+                />
+              </label>
+            ) : (
+              <span>생년월일: {birthDate || "-"}</span>
+            )}
+            <span>이메일: {email}</span>
+          </div>
+          {isEditing && (
+            <div className="mt-3 flex gap-3">
+              <button
+                onClick={onSave}
+                disabled={!hasChanges}
+                className={`rounded-lg px-4 py-2 text-sm transition-colors ${
+                  hasChanges
+                    ? "bg-purple-600 text-white hover:bg-purple-700 cursor-pointer"
+                    : "bg-transparent text-white/50 cursor-not-allowed"
+                }`}
+              >
+                저장
+              </button>
+              <button
+                onClick={onCancel}
+                className="rounded-lg bg-white/20 px-4 py-2 text-sm text-white transition-colors hover:bg-white/30 cursor-pointer"
+              >
+                취소
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
