@@ -1,0 +1,22 @@
+name: Seatmap Server CI/CD
+
+on:
+  push:
+    branches:
+      - dev
+    paths:
+      - 'AI/seatmap_to_html/**'
+      - '.github/workflows/seatmap-server.yml'
+
+jobs:
+  build-dev:
+    uses: ./.github/workflows/build-and-deploy.yml
+    with:
+      service_name: seatmap-server
+      service_path: AI/seatmap_to_html
+      docker_image: kkaebu/seatmap-server
+      environment: dev
+    secrets:
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      GH_PAT: ${{ secrets.GH_PAT }}

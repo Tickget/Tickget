@@ -1,0 +1,22 @@
+name: User Server CI/CD
+
+on:
+  push:
+    branches:
+      - dev
+    paths:
+      - 'Backend/user-server/**'
+      - '.github/workflows/user-server.yml'
+
+jobs:
+  build-dev:
+    uses: ./.github/workflows/build-and-deploy.yml
+    with:
+      service_name: user-server
+      service_path: Backend/user-server
+      docker_image: kkaebu/user-server
+      environment: dev
+    secrets:
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      GH_PAT: ${{ secrets.GH_PAT }}

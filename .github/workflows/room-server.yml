@@ -1,0 +1,22 @@
+name: Room Server CI/CD
+
+on:
+  push:
+    branches:
+      - dev
+    paths:
+      - 'Backend/room-server/**'
+      - '.github/workflows/room-server.yml'
+
+jobs:
+  build-dev:
+    uses: ./.github/workflows/build-and-deploy.yml
+    with:
+      service_name: room-server
+      service_path: Backend/room-server
+      docker_image: kkaebu/room-server
+      environment: dev
+    secrets:
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      GH_PAT: ${{ secrets.GH_PAT }}

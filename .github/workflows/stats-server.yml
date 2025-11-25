@@ -1,0 +1,22 @@
+name: Stats Server CI/CD
+
+on:
+  push:
+    branches:
+      - dev
+    paths:
+      - 'Backend/stats-server/**'
+      - '.github/workflows/stats-server.yml'
+
+jobs:
+  build-dev:
+    uses: ./.github/workflows/build-and-deploy.yml
+    with:
+      service_name: stats-server
+      service_path: Backend/stats-server
+      docker_image: kkaebu/stats-server
+      environment: dev
+    secrets:
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      GH_PAT: ${{ secrets.GH_PAT }}

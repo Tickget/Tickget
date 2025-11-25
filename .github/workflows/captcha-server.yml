@@ -1,0 +1,22 @@
+name: Captcha Server CI/CD
+
+on:
+  push:
+    branches:
+      - dev
+    paths:
+      - 'Backend/catpcha-server/**'
+      - '.github/workflows/captcha-server.yml'
+
+jobs:
+  build-dev:
+    uses: ./.github/workflows/build-and-deploy.yml
+    with:
+      service_name: captcha-server
+      service_path: Backend/catpcha-server
+      docker_image: kkaebu/captcha-server
+      environment: dev
+    secrets:
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      GH_PAT: ${{ secrets.GH_PAT }}

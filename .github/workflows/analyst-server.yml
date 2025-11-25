@@ -1,0 +1,22 @@
+name: Analyst Server CI/CD
+
+on:
+  push:
+    branches:
+      - dev
+    paths:
+      - 'AI/AI_analyst/**'
+      - '.github/workflows/analyst-server.yml'
+
+jobs:
+  build-dev:
+    uses: ./.github/workflows/build-and-deploy.yml
+    with:
+      service_name: analyst-server
+      service_path: AI/AI_analyst
+      docker_image: kkaebu/analyst-server
+      environment: dev
+    secrets:
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      GH_PAT: ${{ secrets.GH_PAT }}

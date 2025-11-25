@@ -1,0 +1,22 @@
+name: Search Server CI/CD
+
+on:
+  push:
+    branches:
+      - dev
+    paths:
+      - 'Backend/search-server/**'
+      - '.github/workflows/search-server.yml'
+
+jobs:
+  build-dev:
+    uses: ./.github/workflows/build-and-deploy.yml
+    with:
+      service_name: search-server
+      service_path: Backend/search-server
+      docker_image: kkaebu/search-server
+      environment: dev
+    secrets:
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      GH_PAT: ${{ secrets.GH_PAT }}
