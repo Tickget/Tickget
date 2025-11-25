@@ -88,9 +88,9 @@ jobs:
 
           # Clone k8s-manifest repository
           git clone --depth 1 --branch $BRANCH \
-            https://x-access-token:${GH_PAT}@github.com/Tickget/tickget-k8s-manifests.git k8s-manifests
+            https://x-access-token:${GH_PAT}@github.com/Tickget/tickget-k8s-manifest.git k8s-manifest
 
-          cd k8s-manifests
+          cd k8s-manifest
 
           # Kustomization file path
           KUSTOMIZATION_FILE="apps/${{ inputs.service_name }}/overlays/${{ inputs.environment }}/kustomization.yaml"
