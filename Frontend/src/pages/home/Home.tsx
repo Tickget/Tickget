@@ -28,8 +28,7 @@ export default function HomePage() {
   const userId = useAuthStore((s) => s.userId);
   const nickname = useAuthStore((s) => s.nickname);
   const [openCreate, setOpenCreate] = useState(false);
-  const canCreateRoom =
-    typeof userId === "number" && userId >= 1 && userId <= 8;
+  const canCreateRoom = typeof userId === "number" && userId >= 1;
 
   type UiRoom = {
     id: number;
