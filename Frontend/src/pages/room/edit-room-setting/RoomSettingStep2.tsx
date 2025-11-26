@@ -228,11 +228,11 @@ export default function Step2AdvancedForm({
                   setBotCount("");
                   return;
                 }
-                const num = Math.max(0, Math.min(20000, parseInt(digits, 10)));
+                const num = Math.max(0, Math.min(50000, parseInt(digits, 10)));
                 setBotCount(String(num));
               }}
               className="w-full text-gray-600 text-lg font-semibold border-b-2 border-gray-300 px-2 py-3 outline-none focus:border-purple-600"
-              placeholder="봇 수 입력 (0 ~ 20000)"
+              placeholder="봇 수 입력 (0 ~ 50000)"
               inputMode="numeric"
             />
           </div>
