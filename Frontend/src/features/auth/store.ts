@@ -105,5 +105,5 @@ export const useAuthStore = create<AuthState>()(
 
 // 개발 환경에서 브라우저 콘솔에서 store 확인 가능하도록
 if (import.meta.env.DEV && typeof window !== "undefined") {
-  (window as any).authStore = useAuthStore;
+  (window as typeof window & { authStore: typeof useAuthStore }).authStore = useAuthStore;
 }

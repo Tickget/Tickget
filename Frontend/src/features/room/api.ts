@@ -144,20 +144,7 @@ export async function processSeatmapTsx(
     // ignore
   }
 
-  // Debug: log request summary (mask authorization)
-  const maskedHeaders = Object.fromEntries(
-    Object.entries(headers).map(([k, v]) =>
-      k.toLowerCase() === "authorization"
-        ? [k, v ? `${String(v).slice(0, 8)}...` : ""]
-        : [k, v]
-    )
-  );
-  try {
-    
-    
-  } catch {
-    // ignore console issues
-  }
+  // Debug: log request summary (disabled for production)
 
   const res = await fetch(url, {
     method: "POST",
@@ -172,12 +159,6 @@ export async function processSeatmapTsx(
     parsed = text ? (JSON.parse(text) as ProcessTsxResponse) : null;
   } catch {
     parsed = null;
-  }
-
-  try {
-    
-  } catch {
-    // ignore console issues
   }
 
   // 503 Service Unavailable 오류 처리

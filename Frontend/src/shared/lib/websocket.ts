@@ -27,7 +27,7 @@ export function buildWebSocketUrl(baseUrl: string): string {
 // 최종 WebSocket 엔드포인트
 const WS_URL = buildWebSocketUrl(ROOM_SERVER_BASE_URL);
 if (import.meta.env.DEV) {
-
+  // Dev environment - WebSocket URL configured
 }
 
 // 타입 별칭
@@ -74,7 +74,7 @@ export function createStompClient(options: WebSocketOptions = {}): Client {
   if (accessToken) {
     connectHeaders.Authorization = `Bearer ${accessToken}`;
     if (import.meta.env.DEV) {
-  
+      // Dev environment - Authorization header set
     }
   }
   // userId: 옵션 > 스토어 순으로 설정
@@ -82,7 +82,6 @@ export function createStompClient(options: WebSocketOptions = {}): Client {
     userId ?? (storeUserId != null ? String(storeUserId) : undefined);
   if (resolvedUserId != null) {
     connectHeaders.userId = String(resolvedUserId);
-    
   }
 
   const client = new Client({
@@ -91,23 +90,23 @@ export function createStompClient(options: WebSocketOptions = {}): Client {
     reconnectDelay,
     heartbeatIncoming,
     heartbeatOutgoing,
-    debug: (str) => {
+    debug: (_str) => {
       if (import.meta.env.DEV) {
-       
+        // Debug logging disabled
       }
     },
   });
 
   client.onConnect = () => {
     if (import.meta.env.DEV) {
-     
+      // WebSocket connected
     }
     onConnect?.();
   };
 
   client.onDisconnect = () => {
     if (import.meta.env.DEV) {
-     
+      // WebSocket disconnected
     }
     onDisconnect?.();
   };
@@ -134,7 +133,7 @@ export function createStompClient(options: WebSocketOptions = {}): Client {
 export function connectStompClient(client: Client): void {
   if (!client.active) {
     if (import.meta.env.DEV) {
-      
+      // Activating STOMP client
     }
     client.activate();
   }

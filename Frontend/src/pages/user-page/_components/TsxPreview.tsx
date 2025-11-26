@@ -289,8 +289,8 @@ export default function TsxPreview({
             }
           }
           processedElements.add(el);
-        } else if (hasColor) {
-          // 선택되지 않은 섹션의 좌석은 회색 처리 (색상이 있는 경우만)
+        } else if ((seatSection || finalSeatId) && hasColor) {
+          // 선택되지 않은 섹션의 좌석은 회색 처리 (좌석 ID가 있고 색상이 있는 경우)
           if (el instanceof HTMLElement) {
             el.style.backgroundColor = LIGHT_GRAY;
             el.style.opacity = "0.5";
