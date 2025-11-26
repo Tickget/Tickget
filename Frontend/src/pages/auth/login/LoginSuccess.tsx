@@ -38,7 +38,8 @@ export default function LoginSuccess() {
           nickname,
           name,
           profileImageUrl: null,
-        } as any);
+          message: "",
+        });
 
         // 프로필 이미지 조회
         let profileImageUrl: string | null = null;
@@ -84,7 +85,8 @@ export default function LoginSuccess() {
             nickname: current.nickname,
             name: "홍길동",
             profileImageUrl,
-          } as any);
+            message: "",
+          });
         } else if (hasProfileImage) {
           const current = useAuthStore.getState();
           setAuth({
@@ -95,7 +97,8 @@ export default function LoginSuccess() {
             nickname: current.nickname,
             name: current.name,
             profileImageUrl,
-          } as any);
+            message: "",
+          });
         }
 
         // 팝업으로 열린 경우 메인 창에 알리고 닫기
