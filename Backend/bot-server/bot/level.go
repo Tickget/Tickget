@@ -48,8 +48,8 @@ func (l Level) GetDelayConfig() DelayConfig {
 		}
 	case LevelPro:
 		return DelayConfig{
-			SelectDayBase:      800,  // 0.8초
-			SelectDayVariance:  100,  // ±0.2초
+			SelectDayBase:      600,  // 0.6초
+			SelectDayVariance:  400,  // ±0.4초
 			CaptchaBase:        6500, // 6.5초
 			CaptchaVariance:    1500, // ±1.5초
 			SelectSeatBase:     2500, // 2.5초
