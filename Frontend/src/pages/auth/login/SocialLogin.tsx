@@ -8,7 +8,8 @@ import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import TextField from "@mui/material/TextField";
 import googleIcon from "@shared/images/icons/google.png";
-import { testAccountLogin, adminAccountLoginByName } from "@features/auth/api";
+// import { testAccountLogin } from "@features/auth/api";
+import { adminAccountLoginByName } from "@features/auth/api";
 import { useAuthStore } from "@features/auth/store";
 
 const BASE_URL = `${import.meta.env.VITE_API_ORIGIN ?? ""}/api/v1/dev/auth`;
@@ -342,38 +343,38 @@ export default function SocialLogin() {
 
   // checkAuthStatus는 더 이상 사용하지 않습니다.
 
-  const handleLogoClick = () => {
-    navigate("/");
-  };
+  // const handleLogoClick = () => {
+  //   navigate("/");
+  // };
 
   const setAuth = useAuthStore((state) => state.setAuth);
 
-  const handleTestAccountCreate = async () => {
-    setIsLoading("test");
-    try {
-      const data = await testAccountLogin();
+  // const handleTestAccountCreate = async () => {
+  //   setIsLoading("test");
+  //   try {
+  //     const data = await testAccountLogin();
 
-      setAuth(data);
-      const storeState = useAuthStore.getState();
+  //     setAuth(data);
+  //     // const storeState = useAuthStore.getState();
 
-      openSnackbar("게스트 계정이 생성되었습니다!", "success");
-      const from =
-        (location.state as { from?: { pathname?: string } })?.from?.pathname ||
-        "/";
-      setTimeout(() => {
-        navigate(from, { replace: true });
-      }, 1500);
-    } catch (error) {
-      console.error("게스트 계정 생성 오류:", error);
-      const errorMessage =
-        error instanceof Error
-          ? error.message
-          : "게스트 계정 생성 중 오류가 발생했습니다.";
-      openSnackbar(errorMessage, "error");
-    } finally {
-      setIsLoading(null);
-    }
-  };
+  //     openSnackbar("게스트 계정이 생성되었습니다!", "success");
+  //     const from =
+  //       (location.state as { from?: { pathname?: string } })?.from?.pathname ||
+  //       "/";
+  //     setTimeout(() => {
+  //       navigate(from, { replace: true });
+  //     }, 1500);
+  //   } catch (error) {
+  //     console.error("게스트 계정 생성 오류:", error);
+  //     const errorMessage =
+  //       error instanceof Error
+  //         ? error.message
+  //         : "게스트 계정 생성 중 오류가 발생했습니다.";
+  //     openSnackbar(errorMessage, "error");
+  //   } finally {
+  //     setIsLoading(null);
+  //   }
+  // };
 
   const handleAdminButtonClick = () => {
     setPasswordModalOpen(true);
@@ -435,7 +436,7 @@ export default function SocialLogin() {
         });
       }
 
-      const storeState = useAuthStore.getState();
+      // const storeState = useAuthStore.getState();
 
       openSnackbar(`${name} 관리자 계정으로 로그인되었습니다!`, "success");
       const from =
@@ -704,7 +705,7 @@ export default function SocialLogin() {
               ))}
 
               {/* 게스트 계정 로그인 버튼 */}
-              <div className="mt-3">
+              {/* <div className="mt-3">
                 <Button
                   size="medium"
                   fullWidth
@@ -728,7 +729,7 @@ export default function SocialLogin() {
                   </div>
                   <span className="text-sm">게스트 계정으로 로그인</span>
                 </Button>
-              </div>
+              </div> */}
             </div>
 
             {/* 회원가입 링크 */}
