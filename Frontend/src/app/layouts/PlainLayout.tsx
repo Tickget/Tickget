@@ -128,7 +128,7 @@ export default function PlainLayout() {
       if (subscription) {
         userSubscriptionRef.current = subscription;
         if (import.meta.env.DEV) {
-          
+          // Dev environment - subscription successful
         }
       } else {
         console.warn("⚠️ [개인 메시지] 구독 실패");

@@ -438,7 +438,7 @@ export default function ITicketPage() {
                     },
                   }
                 );
-                return; // onConfirm에서 이동하므로 여기서는 return
+                // Alert shown, navigation handled in onConfirm
               }
             })();
           } else {

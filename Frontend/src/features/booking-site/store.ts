@@ -30,5 +30,5 @@ export const useMatchStore = create<MatchState>()(
 
 // 개발 편의를 위한 글로벌 접근 (dev 전용)
 if (import.meta.env.DEV && typeof window !== "undefined") {
-  (window as any).matchStore = useMatchStore;
+  (window as typeof window & { matchStore: typeof useMatchStore }).matchStore = useMatchStore;
 }

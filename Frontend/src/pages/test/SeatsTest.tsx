@@ -86,7 +86,7 @@ export default function SeatsTestPage() {
           }}
         >
           {(() => {
-            const elements = [] as any[];
+            const elements: JSX.Element[] = [];
             for (let r = 0; r < ROWS; r++) {
               for (let c = 0; c < COLS; c++) {
                 const i = r * COLS + c;
@@ -133,7 +133,7 @@ export default function SeatsTestPage() {
           }}
         >
           {(() => {
-            const elements = [] as any[];
+            const elements: JSX.Element[] = [];
             for (let r = 0; r < ROWS; r++) {
               for (let c = 0; c < COLS; c++) {
                 const i = r * COLS + c;

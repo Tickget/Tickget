@@ -105,7 +105,7 @@ export function readMetricsWithFallback(sp: URLSearchParams): {
     const v = sp.get(param) ?? sessionStorage.getItem(storageKey);
     if (v == null) return nullable ? null : 0;
     const n = Number(v);
-    return (isNaN(n) ? 0 : n) as any;
+    return isNaN(n) ? 0 : n;
   };
   return {
     rtSec: getNum("rtSec", KEYS.rtSec),
